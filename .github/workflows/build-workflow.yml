@@ -1,0 +1,31 @@
+name: CI
+on: [pull_request]
+env:
+  PERL_TEST_HARNESS_DUMP_TAP: /tmp/test-output
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Perl environment
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: 5.30
+
+    - name: Install dependencies
+      run: |
+        cpanm --installdeps .
+
+    - name: Run tests
+      run: |
+        prove --formatter TAP::Formatter::JUnit -lv t
+        
+    - name : Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: /tmp/test-output/**/*.xml
+        retention-days: 1        
