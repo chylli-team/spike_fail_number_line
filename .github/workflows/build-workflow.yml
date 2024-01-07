@@ -12,15 +12,11 @@ jobs:
     - name: Set up Perl environment
       uses: shogo82148/actions-setup-perl@v1
       with:
-        perl-version: 5.30
-
-    - name: Install dependencies
-      run: |
-        cpanm --installdeps .
+        perl-version: 5.34
 
     - name: Run tests
       run: |
-        prove --formatter TAP::Formatter::JUnit -lv t
+        make test
         
     - name : Upload test results
       uses: actions/upload-artifact@v3
