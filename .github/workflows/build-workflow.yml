@@ -15,7 +15,7 @@ jobs:
         perl-version: 5.34
     - name: Install dependencies
       run: |
-        cpanm --quiet --installdeps --reinstall --notest .
+        cpanm --installdeps --reinstall --notest .
     - name: Run tests
       run: |
         make test
