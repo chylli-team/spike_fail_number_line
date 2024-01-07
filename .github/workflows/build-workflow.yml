@@ -13,12 +13,6 @@ jobs:
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: 5.34
-    - name: check perl
-      run: |
-        echo $PATH
-        which perl
-        cpanm --version
-        prove --version
     - name: Run tests
       run: |
         make test
