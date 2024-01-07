@@ -63,6 +63,7 @@ sub summary {
     return if $self->silent();
 
     my @suites = @{$self->testsuites};
+    print STDERR "=========================================\n";
     print { $self->stdout } $self->xml->testsuites( @suites );
 }
 
