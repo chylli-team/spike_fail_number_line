@@ -12,7 +12,7 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-    - uses: chylli-deriv/test-reporter@v1
+    - uses: chylli-deriv/test-reporter@spike_fail_number_line
       with:
         artifact: test-results            # artifact name
         name: perl Tests                  # Name of the check run which will be created
