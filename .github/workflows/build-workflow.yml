@@ -1,4 +1,4 @@
-name: CI
+name: disable report
 on: [pull_request]
 env:
   PERL_TEST_HARNESS_DUMP_TAP: /tmp/test-output
