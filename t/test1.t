@@ -22,4 +22,8 @@ subtest "test subtest2" => sub {
     };
 };
 
+subtest "test die" => sub {
+    is(Add::will_die(1, 2), 3, "in subtest 2 test 1");
+};
+
 done_testing();
