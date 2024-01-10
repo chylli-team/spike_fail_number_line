@@ -3,7 +3,7 @@ export PERL5LIB := local/lib/perl5:$(PERL5LIB)
 
 test:
 	@echo "Running tests..."
-	@perl $$(which prove) -Ilib --formatter TAP::Formatter::JUnit -r t
+	@perl $$(which prove) -Ilib --merge --formatter TAP::Formatter::JUnit -r t
 
 clean:
 	@git clean -fd
