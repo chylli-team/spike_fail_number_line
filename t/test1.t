@@ -1,7 +1,6 @@
 use strict;
 use warnings;
 use Test::More;
-use test::Exception;
 use Add;
 
 # Add your test cases here
