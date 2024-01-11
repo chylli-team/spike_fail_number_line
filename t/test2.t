@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More;
+use Test2::V0;
 use Add;
 
 ok(1, "a test without subtest");
