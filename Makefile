@@ -1,4 +1,4 @@
-export PERL_TEST_HARNESS_DUMP_TAP := test-output
+export JUNIT_TEST_FILE :="test-output/test-output.xml"
 export PERL5LIB := local/lib/perl5:$(PERL5LIB)
 
 test:
