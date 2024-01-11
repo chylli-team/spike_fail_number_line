@@ -3,6 +3,8 @@ use warnings;
 use Test::More;
 use Add;
 
+ok(1, "a test without subtest");
+
 # Add your test cases here
 subtest "test subtest1" => sub {
     is(Add::add(1, 2), 3, "in subtest 1 test 1");
