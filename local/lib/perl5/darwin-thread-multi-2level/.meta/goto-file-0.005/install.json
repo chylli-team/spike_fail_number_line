@@ -1,1 +1,0 @@
-{"name":"goto::file","version":"0.005","pathname":"E/EX/EXODIST/goto-file-0.005.tar.gz","dist":"goto-file-0.005","provides":{"goto::file":{"file":"lib/goto/file.pm","version":"0.005"}},"target":"goto::file"}
