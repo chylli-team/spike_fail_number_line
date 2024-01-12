@@ -1,5 +1,4 @@
 export PERL_TEST_HARNESS_DUMP_TAP := test-output
-export PERL5LIB := local/lib/perl5:$(PERL5LIB)
 
 test:
 	@echo "Running tests..."

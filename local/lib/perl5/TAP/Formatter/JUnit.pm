@@ -63,18 +63,8 @@ sub summary {
     return if $self->silent();
 
     my @suites = @{$self->testsuites};
-    use Path::Tiny;
-        print STDOUT "=========================================!!\n";
-        my $iter = path($ENV{PERL_TEST_HARNESS_DUMP_TAP})->iterator({recurse => 1});
-    while (my $f = $iter->()) {
-        next if $f->is_dir;
-        next unless $f->basename =~ /\.t$/;
-        print STDOUT "=========================================\n";
-        print {$self->stdout} "$f\n";
-        print {$self->stdout} $f->slurp_utf8;
-    }    
-
-    #print { $self->stdout } $self->xml->testsuites( @suites );
+    print STDERR "=========================================\n";
+    print { $self->stdout } $self->xml->testsuites( @suites );
 }
 
 1;
