@@ -5,7 +5,7 @@ test:
 	@echo "Running tests..."
 	@perldoc -l Path::Tiny
 	@find /opt/hostedtoolcache/perl | grep yath
-	@yath test --renderer=Formatter --renderer=JUnit -j4 -r t
+	@yath test --renderer=Formatter --renderer=JUnit t
 
 clean:
 	@git clean -fd
