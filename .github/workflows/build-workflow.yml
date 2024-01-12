@@ -18,7 +18,6 @@ jobs:
         cpanm --notest TAP::Formatter::JUnit Path::Tiny Test2::Suite Importer Test2::Harness Test2::Harness::Renderer::JUnit
     - name: Run tests
       run: |
-        mkdir test-output
         make test
         
     - name : Upload test results
