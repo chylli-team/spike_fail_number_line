@@ -128,6 +128,7 @@ my %language_for;
             syntax  => qr/^($ok) \ ($num) (?:\ ([^#]+))? \z/x,
             handler => sub {
                 my ( $self, $line ) = @_;
+                print "simple_test: $line\n";
                 my ( $ok, $num, $desc ) = ( $1, $2, $3 );
 
                 return $self->_make_test_token(
@@ -137,7 +138,7 @@ my %language_for;
             },
         },
         test => {
-            syntax  => qr/^($ok) \s* ($num)? \s* (.*) \z/x,
+            syntax  => qr/^\s*($ok) \s* ($num)? \s* (.*) \z/x,
             handler => sub {
                 my ( $self, $line ) = @_;
                 my ( $ok, $num, $desc ) = ( $1, $2, $3 );

@@ -380,7 +380,7 @@ sub info_tap {
         my $details = $_->{details};
         my $table   = $_->{table};
 
-        my $IO = $_->{debug} && !($f->{amnesty} && @{$f->{amnesty}}) ? OUT_ERR : OUT_STD;
+        my $IO = $_->{debug} && !($f->{amnesty} && @{$f->{amnesty}}) ? OUT_STD : OUT_STD;
 
         my $msg;
         if ($table && $self->supports_tables) {
