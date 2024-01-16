@@ -15,7 +15,7 @@ jobs:
         perl-version: 5.34
     - name: Install dependencies
       run: |
-        cpanm --reinstall --notest TAP::Formatter::JUnit Path::Tiny
+        cpanm --reinstall --notest TAP::Formatter::JUnit Path::Tiny Test::Exception
     - name: Run tests
       run: |
         make test
