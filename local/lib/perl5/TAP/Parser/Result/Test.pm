@@ -67,6 +67,20 @@ sub _number {
 
 ##############################################################################
 
+=head3 C<prefix_length>
+
+    my $prefix_length = $result->prefix_length;
+    
+Returns the length of prefix string before the test number.  This is used to prepend strings before the test string
+
+=cut
+
+sub prefix_length {
+    shift->{prefix_length} // 0;
+}
+
+##############################################################################
+
 =head3 C<description>
 
   my $description = $result->description;

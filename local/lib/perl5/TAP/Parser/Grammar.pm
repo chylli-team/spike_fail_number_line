@@ -128,7 +128,6 @@ my %language_for;
             syntax  => qr/^($ok) \ ($num) (?:\ ([^#]+))? \z/x,
             handler => sub {
                 my ( $self, $line ) = @_;
-                print "simple_test: $line\n";
                 my ( $ok, $num, $desc ) = ( $1, $2, $3 );
 
                 return $self->_make_test_token(
@@ -138,10 +137,10 @@ my %language_for;
             },
         },
         test => {
-            syntax  => qr/^\s*($ok) \s* ($num)? \s* (.*) \z/x,
+            syntax  => qr/^(\s*)($ok) \s* ($num)? \s* (.*) \z/x,
             handler => sub {
                 my ( $self, $line ) = @_;
-                my ( $ok, $num, $desc ) = ( $1, $2, $3 );
+                my ( $prefix_length, $ok, $num, $desc ) = ( length($1), $2, $3, $4 );
                 my ( $dir, $explanation ) = ( '', '' );
                 if ($desc =~ m/^ ( [^\\\#]* (?: \\. [^\\\#]* )* )
                        \# \s* (SKIP|TODO) \b \s* (.*) $/ix
@@ -151,7 +150,7 @@ my %language_for;
                 }
                 return $self->_make_test_token(
                     $line, $ok, $num, $desc,
-                    $dir,  $explanation
+                    $dir,  $explanation, $prefix_length
                 );
             },
         },
@@ -408,7 +407,7 @@ sub _make_plan_token {
 }
 
 sub _make_test_token {
-    my ( $self, $line, $ok, $num, $desc, $dir, $explanation ) = @_;
+    my ( $self, $line, $ok, $num, $desc, $dir, $explanation, $prefix_length ) = @_;
     return {
         ok          => $ok,
 
@@ -420,6 +419,7 @@ sub _make_test_token {
         explanation => _trim($explanation),
         raw         => $line,
         type        => 'test',
+        prefix_length => $prefix_length,
     };
 }
 

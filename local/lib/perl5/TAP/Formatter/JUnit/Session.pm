@@ -315,7 +315,7 @@ sub _check_for_test_bogosity {
 # Generates the name for a test case.
 sub _get_testcase_name {
     my $test = shift;
-    my $name = join(' ', $test->number(), _clean_test_description($test));
+    my $name = '.' x $test->result->prefix_length .  join(' ', $test->number(), _clean_test_description($test));
     $name =~ s/\s+$//;
     return $name;
 }
