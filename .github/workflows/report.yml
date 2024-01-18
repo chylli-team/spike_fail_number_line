@@ -12,9 +12,12 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-    - uses: chylli-deriv/test-reporter@spike_fail_number_line
+    - uses: chylli-deriv/test-reporter@apply_spile_result
       with:
         artifact: test-results            # artifact name
         name: perl Tests                  # Name of the check run which will be created
         path: './**/*.xml'                     # Path to test results (inside artifact .zip)
         reporter: perl-junit              # Format of test results
+        only-summary: "true"
+        list-suites: "failed"
+        list-tests: "failed"
