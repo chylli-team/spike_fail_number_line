@@ -92,6 +92,19 @@ test number but before the directive.
 
 sub description { shift->{description} }
 
+sub prefix_description {
+    my $self = shift;
+    $self->{prefix_description} = shift if @_;
+    return $self->{prefix_description};
+}
+
+sub full_description {
+    my $self = shift;
+    my $desc = $self->description;
+    my $prefix_desc = $self->{prefix_description} // '';
+    return "$prefix_desc:$desc";
+}
+
 ##############################################################################
 
 =head3 C<directive>

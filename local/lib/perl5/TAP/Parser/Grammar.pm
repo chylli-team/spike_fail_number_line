@@ -155,7 +155,7 @@ my %language_for;
             },
         },
         subtest => {
-            syntax  => qr/^# Subtest: (.*)/,
+            syntax  => qr/^\s*# Subtest: (.*)/,
             handler => sub {
                 my ( $self, $line ) = @_;
                 my $desc = $1;

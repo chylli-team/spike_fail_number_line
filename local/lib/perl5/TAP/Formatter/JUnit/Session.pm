@@ -315,7 +315,7 @@ sub _check_for_test_bogosity {
 # Generates the name for a test case.
 sub _get_testcase_name {
     my $test = shift;
-    my $name = '.' x $test->result->prefix_length .  join(' ', $test->number(), _clean_test_description($test));
+    my $name = join(' ', $test->number(), _clean_test_description($test));
     $name =~ s/\s+$//;
     return $name;
 }
@@ -343,7 +343,7 @@ sub _clean_to_java_class_name {
 # Cleans up the description of the given test.
 sub _clean_test_description {
     my $test = shift;
-    my $desc = $test->description();
+    my $desc = $test->result->full_description();
     return _squeaky_clean($desc);
 }
 

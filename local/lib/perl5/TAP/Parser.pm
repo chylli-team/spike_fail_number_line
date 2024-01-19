@@ -952,6 +952,13 @@ Get a list of all the currently enabled pragmas:
 
 sub pragmas { sort keys %{ shift->{pragma} || {} } }
 
+sub subtests {
+    my $self = shift;
+    $self->{subtests} //= [];
+    return $self->{subtests};
+
+}
+
 =head2 Summary Results
 
 These results are "meta" information about the total results of an individual
@@ -1187,7 +1194,7 @@ sub _make_state_table {
         subtest => {
             act => sub {
                 my $subtest = shift;
-                print STDERR "processing subtest\n";
+                push @{ $self->subtests}, $subtest->description;
             }
         },
 
@@ -1211,7 +1218,16 @@ sub _make_state_table {
         test => {
             act => sub {
                 my ($test) = @_;
-
+                my $prefix_length = $test->prefix_length || 0;
+                my $subtest_levels = $prefix_length / 4;
+                print STDERR "test: " . $test->description . " prefix length " . $test->prefix_length . " levels: $subtest_levels subtests " . scalar($self->subtests->@*) . "\n";
+                if($subtest_levels > scalar @{$self->subtests}) {
+                    $self->_croak('Subtest not declared with a subtest directive');
+                }
+                else{
+                    splice(@{$self->subtests}, $subtest_levels);
+                    $test->prefix_description(join ": ", $self->{subtests}->@*);
+                }
                 my ( $number, $tests_run )
                   = ( $test->number, ++$self->{tests_run} );
 
@@ -1397,8 +1413,6 @@ sub _iter {
     my $next_state = sub {
         my $token = shift;
         my $type  = $token->type;
-        print STDERR "type is $type, state is $state\n";
-        print STDERR "next state: " . $state_table->{$state} . "\n";
         TRANS: {
             my $state_spec = $state_table->{$state}
               or die "Illegal state: $state";
