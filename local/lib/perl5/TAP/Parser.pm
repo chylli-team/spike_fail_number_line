@@ -1250,6 +1250,12 @@ sub _make_state_table {
                   } => $number;
             },
         },
+        subtest => {
+            act => sub {
+                my $subtest = shift;
+                print STDERR "processing subtest\n";
+            }
+        },
         yaml => { act => sub { }, },
     );
 
@@ -1288,13 +1294,16 @@ sub _make_state_table {
             },
             plan => { goto => 'PLANNED' },
             test => { goto => 'UNPLANNED' },
+            subtest => { goto => 'UNPLANNED' },
         },
         PLAN => {
             plan => { goto => 'PLANNED' },
             test => { goto => 'UNPLANNED' },
+            subtest => { goto => 'PLANED' },
         },
         PLANNED => {
             test => { goto => 'PLANNED_AFTER_TEST' },
+            subtest => { goto => 'PLANNED_AFTER_TEST' },
             plan => {
                 act => sub {
                     my ($version) = @_;
@@ -1305,6 +1314,7 @@ sub _make_state_table {
         },
         PLANNED_AFTER_TEST => {
             test => { goto => 'PLANNED_AFTER_TEST' },
+            subtest => { goto => 'PLANNED_AFTER_TEST' },
             plan => { act  => sub { }, continue => 'PLANNED' },
             yaml => { goto => 'PLANNED' },
         },
@@ -1320,14 +1330,17 @@ sub _make_state_table {
                 },
                 continue => 'PLANNED'
             },
+            subtest => { continue => 'PLANNED' },
             plan => { continue => 'PLANNED' },
         },
         UNPLANNED => {
             test => { goto => 'UNPLANNED_AFTER_TEST' },
+            subtest => { goto => 'UNPLANNED_AFTER_TEST' },
             plan => { goto => 'GOT_PLAN' },
         },
         UNPLANNED_AFTER_TEST => {
             test => { act  => sub { }, continue => 'UNPLANNED' },
+            subtest => { act  => sub { }, continue => 'UNPLANNED' },
             plan => { act  => sub { }, continue => 'UNPLANNED' },
             yaml => { goto => 'UNPLANNED' },
         },
@@ -1383,7 +1396,8 @@ sub _iter {
     my $spool       = $self->_spool;
     my $state       = 'INIT';
     my $state_table = $self->_make_state_table;
-
+    use Data::Dumper;
+    print STDERR Dumper($state_table);
     $self->start_time( $self->get_time ) unless $self->{start_time};
     $self->start_times( $self->get_times ) unless $self->{start_times};
 
@@ -1391,6 +1405,8 @@ sub _iter {
     my $next_state = sub {
         my $token = shift;
         my $type  = $token->type;
+        print STDERR "type is $type, state is $state\n";
+        print STDERR "next state: " . $state_table->{$state} . "\n";
         TRANS: {
             my $state_spec = $state_table->{$state}
               or die "Illegal state: $state";

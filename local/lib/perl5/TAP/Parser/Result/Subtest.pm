@@ -22,7 +22,9 @@ our $VERSION = '3.48';
 This is a subclass of L<TAP::Parser::Result>.  A token of this class will be
 returned if a subtest line is encountered.
 
- # Subtest: This is a subtest
+ 1..1
+ ok 1 - woo hooo!
+ # this is a subtest
 
 =head1 OVERRIDDEN METHODS
 
@@ -33,7 +35,7 @@ They keep me awake at night.
 
 =item * C<as_string>
 
-Note that this method merely returns the comment preceded by a '# '.
+Note that this method merely returns the subtest preceded by a '# '.
 
 =back
 
@@ -43,16 +45,17 @@ Note that this method merely returns the comment preceded by a '# '.
 
 =head2 Instance Methods
 
-=head3 C<comment> 
+##############################################################################
 
-  if ( $result->is_comment ) {
-      my $comment = $result->comment;
-      print "I have something to say:  $comment";
-  }
+=head3 C<description>
+
+  my $description = $result->description;
+
+Returns the description of the test, if any.  This is the portion after the
+test number but before the directive.
 
 =cut
 
-sub comment   { shift->{comment} }
-sub as_string { shift->{raw} }
+sub description { shift->{description} }
 
 1;

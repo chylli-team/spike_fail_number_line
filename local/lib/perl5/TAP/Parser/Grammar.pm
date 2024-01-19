@@ -154,8 +154,17 @@ my %language_for;
                 );
             },
         },
+        subtest => {
+            syntax  => qr/^# Subtest: (.*)/,
+            handler => sub {
+                my ( $self, $line ) = @_;
+                my $desc = $1;
+                return $self->_make_subtest_token( $line, $desc);
+            },
+           
+        },
         comment => {
-            syntax  => qr/^#(.*)/,
+            syntax  => qr/^#(?! Subtest:)(.*)/,
             handler => sub {
                 my ( $self, $line ) = @_;
                 my $comment = $1;
@@ -271,7 +280,7 @@ sub _order_tokens {
 
     my %copy = %{ $self->{tokens} };
     my @ordered_tokens = grep {defined}
-      map { delete $copy{$_} } qw( simple_test test comment plan );
+      map { delete $copy{$_} } qw( simple_test test subtest comment plan );
     push @ordered_tokens, values %copy;
 
     $self->{ordered_tokens} = \@ordered_tokens;
@@ -420,6 +429,15 @@ sub _make_test_token {
         raw         => $line,
         type        => 'test',
         prefix_length => $prefix_length,
+    };
+}
+
+sub _make_subtest_token {
+    my ( $self, $line, $desc ) = @_;
+    return {
+        type        => 'subtest',
+        raw         => $line,
+        description => _trim($desc),
     };
 }
 
