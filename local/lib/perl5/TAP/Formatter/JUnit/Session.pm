@@ -343,7 +343,7 @@ sub _clean_to_java_class_name {
 # Cleans up the description of the given test.
 sub _clean_test_description {
     my $test = shift;
-    my $desc = $test->description();
+    my $desc = $test->result->full_description();
     return _squeaky_clean($desc);
 }
 
